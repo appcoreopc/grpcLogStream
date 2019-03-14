@@ -18,7 +18,9 @@ type LoggingService struct {
 }
 
 func (ls LoggingService) SendLog(context.Context, *pb.LogRequest) (*pb.LogResponse, error) {
-	return &pb.LogResponse{}, nil
+
+	fmt.Println("getting connection from client")
+	return &pb.LogResponse{Type: "AAAA"}, nil
 }
 
 func main() {
