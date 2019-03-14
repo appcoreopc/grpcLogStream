@@ -18,7 +18,7 @@ type LoggingService struct {
 }
 
 func (ls LoggingService) SendLog(context.Context, *pb.LogRequest) (*pb.LogResponse, error) {
-	return nil, nil
+	return &pb.LogResponse{}, nil
 }
 
 func main() {
@@ -34,5 +34,6 @@ func main() {
 
 	pb.RegisterLoggingStreamServer(server, &LoggingService{})
 
+	fmt.Println("serving up grpc services port", port)
 	server.Serve(lis)
 }
