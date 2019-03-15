@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"time"
 
 	pb "github.com/appcoreopc/grpcLogStream/loggingstream"
@@ -36,6 +37,16 @@ func main() {
 		fmt.Println("error getting response from server ")
 	}
 
-	fmt.Println(r.Type)
+	for {
+
+		f, e := r.Recv()
+
+		if e == io.EOF {
+			break
+		}
+
+		fmt.Println(f.Type)
+	}
+	//fmt.Println(r.Type)
 
 }

@@ -2,9 +2,9 @@ package main
 
 // "github.com/appcoreopc/grpcLogStream/loggingStream/loggingStream"
 import (
-	"context"
 	"fmt"
 	"net"
+	"strconv"
 
 	pb "github.com/appcoreopc/grpcLogStream/loggingstream"
 	"google.golang.org/grpc"
@@ -17,10 +17,18 @@ const (
 type LoggingService struct {
 }
 
-func (ls LoggingService) SendLog(context.Context, *pb.LogRequest) (*pb.LogResponse, error) {
+func (ls LoggingService) SendLog(request *pb.LogRequest, stream pb.LoggingStream_SendLogServer) error {
 
 	fmt.Println("getting connection from client")
-	return &pb.LogResponse{Type: "AAAA"}, nil
+
+	for i := 0; i < 10; i++ {
+
+		msg := &pb.LogResponse{Type: "MsgType" + strconv.Itoa(i)}
+		stream.Send(msg)
+	}
+
+	return nil
+
 }
 
 func main() {
