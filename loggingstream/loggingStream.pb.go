@@ -23,20 +23,89 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-// The request message containing the user's name.
-type LogRequest struct {
+type BaseRequest struct {
 	Logfile              string   `protobuf:"bytes,1,opt,name=logfile,proto3" json:"logfile,omitempty"`
 	Filter               string   `protobuf:"bytes,2,opt,name=filter,proto3" json:"filter,omitempty"`
+	Source               string   `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
+	FileType             string   `protobuf:"bytes,4,opt,name=fileType,proto3" json:"fileType,omitempty"`
+	CreateAt             int64    `protobuf:"varint,5,opt,name=createAt,proto3" json:"createAt,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *BaseRequest) Reset()         { *m = BaseRequest{} }
+func (m *BaseRequest) String() string { return proto.CompactTextString(m) }
+func (*BaseRequest) ProtoMessage()    {}
+func (*BaseRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_loggingStream_399a69e111c29b2c, []int{0}
+}
+func (m *BaseRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BaseRequest.Unmarshal(m, b)
+}
+func (m *BaseRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BaseRequest.Marshal(b, m, deterministic)
+}
+func (dst *BaseRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BaseRequest.Merge(dst, src)
+}
+func (m *BaseRequest) XXX_Size() int {
+	return xxx_messageInfo_BaseRequest.Size(m)
+}
+func (m *BaseRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_BaseRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BaseRequest proto.InternalMessageInfo
+
+func (m *BaseRequest) GetLogfile() string {
+	if m != nil {
+		return m.Logfile
+	}
+	return ""
+}
+
+func (m *BaseRequest) GetFilter() string {
+	if m != nil {
+		return m.Filter
+	}
+	return ""
+}
+
+func (m *BaseRequest) GetSource() string {
+	if m != nil {
+		return m.Source
+	}
+	return ""
+}
+
+func (m *BaseRequest) GetFileType() string {
+	if m != nil {
+		return m.FileType
+	}
+	return ""
+}
+
+func (m *BaseRequest) GetCreateAt() int64 {
+	if m != nil {
+		return m.CreateAt
+	}
+	return 0
+}
+
+// The request message containing the user's name.
+type LogRequest struct {
+	Request              *BaseRequest `protobuf:"bytes,1,opt,name=request,proto3" json:"request,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
 func (m *LogRequest) Reset()         { *m = LogRequest{} }
 func (m *LogRequest) String() string { return proto.CompactTextString(m) }
 func (*LogRequest) ProtoMessage()    {}
 func (*LogRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_loggingStream_42ee9a0bd611f10a, []int{0}
+	return fileDescriptor_loggingStream_399a69e111c29b2c, []int{1}
 }
 func (m *LogRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_LogRequest.Unmarshal(m, b)
@@ -56,26 +125,21 @@ func (m *LogRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_LogRequest proto.InternalMessageInfo
 
-func (m *LogRequest) GetLogfile() string {
+func (m *LogRequest) GetRequest() *BaseRequest {
 	if m != nil {
-		return m.Logfile
+		return m.Request
 	}
-	return ""
-}
-
-func (m *LogRequest) GetFilter() string {
-	if m != nil {
-		return m.Filter
-	}
-	return ""
+	return nil
 }
 
 // The response message containing the greetings
 type LogResponse struct {
 	Type                 string   `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
-	CreateAt             string   `protobuf:"bytes,2,opt,name=createAt,proto3" json:"createAt,omitempty"`
+	CreateAt             int64    `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt,omitempty"`
 	Content              string   `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
 	Status               int32    `protobuf:"varint,4,opt,name=status,proto3" json:"status,omitempty"`
+	Source               string   `protobuf:"bytes,5,opt,name=source,proto3" json:"source,omitempty"`
+	FileType             string   `protobuf:"bytes,6,opt,name=fileType,proto3" json:"fileType,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -85,7 +149,7 @@ func (m *LogResponse) Reset()         { *m = LogResponse{} }
 func (m *LogResponse) String() string { return proto.CompactTextString(m) }
 func (*LogResponse) ProtoMessage()    {}
 func (*LogResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_loggingStream_42ee9a0bd611f10a, []int{1}
+	return fileDescriptor_loggingStream_399a69e111c29b2c, []int{2}
 }
 func (m *LogResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_LogResponse.Unmarshal(m, b)
@@ -112,11 +176,11 @@ func (m *LogResponse) GetType() string {
 	return ""
 }
 
-func (m *LogResponse) GetCreateAt() string {
+func (m *LogResponse) GetCreateAt() int64 {
 	if m != nil {
 		return m.CreateAt
 	}
-	return ""
+	return 0
 }
 
 func (m *LogResponse) GetContent() string {
@@ -133,9 +197,378 @@ func (m *LogResponse) GetStatus() int32 {
 	return 0
 }
 
+func (m *LogResponse) GetSource() string {
+	if m != nil {
+		return m.Source
+	}
+	return ""
+}
+
+func (m *LogResponse) GetFileType() string {
+	if m != nil {
+		return m.FileType
+	}
+	return ""
+}
+
+type SearchLogRequest struct {
+	Request              *BaseRequest `protobuf:"bytes,1,opt,name=request,proto3" json:"request,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
+}
+
+func (m *SearchLogRequest) Reset()         { *m = SearchLogRequest{} }
+func (m *SearchLogRequest) String() string { return proto.CompactTextString(m) }
+func (*SearchLogRequest) ProtoMessage()    {}
+func (*SearchLogRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_loggingStream_399a69e111c29b2c, []int{3}
+}
+func (m *SearchLogRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SearchLogRequest.Unmarshal(m, b)
+}
+func (m *SearchLogRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SearchLogRequest.Marshal(b, m, deterministic)
+}
+func (dst *SearchLogRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SearchLogRequest.Merge(dst, src)
+}
+func (m *SearchLogRequest) XXX_Size() int {
+	return xxx_messageInfo_SearchLogRequest.Size(m)
+}
+func (m *SearchLogRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SearchLogRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SearchLogRequest proto.InternalMessageInfo
+
+func (m *SearchLogRequest) GetRequest() *BaseRequest {
+	if m != nil {
+		return m.Request
+	}
+	return nil
+}
+
+type SearchLogResponse struct {
+	Filter               string   `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	CreatedDate          int64    `protobuf:"varint,2,opt,name=createdDate,proto3" json:"createdDate,omitempty"`
+	Company              string   `protobuf:"bytes,3,opt,name=company,proto3" json:"company,omitempty"`
+	Source               string   `protobuf:"bytes,4,opt,name=source,proto3" json:"source,omitempty"`
+	FileType             string   `protobuf:"bytes,5,opt,name=fileType,proto3" json:"fileType,omitempty"`
+	Logfile              []string `protobuf:"bytes,6,rep,name=logfile,proto3" json:"logfile,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *SearchLogResponse) Reset()         { *m = SearchLogResponse{} }
+func (m *SearchLogResponse) String() string { return proto.CompactTextString(m) }
+func (*SearchLogResponse) ProtoMessage()    {}
+func (*SearchLogResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_loggingStream_399a69e111c29b2c, []int{4}
+}
+func (m *SearchLogResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SearchLogResponse.Unmarshal(m, b)
+}
+func (m *SearchLogResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SearchLogResponse.Marshal(b, m, deterministic)
+}
+func (dst *SearchLogResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SearchLogResponse.Merge(dst, src)
+}
+func (m *SearchLogResponse) XXX_Size() int {
+	return xxx_messageInfo_SearchLogResponse.Size(m)
+}
+func (m *SearchLogResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_SearchLogResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SearchLogResponse proto.InternalMessageInfo
+
+func (m *SearchLogResponse) GetFilter() string {
+	if m != nil {
+		return m.Filter
+	}
+	return ""
+}
+
+func (m *SearchLogResponse) GetCreatedDate() int64 {
+	if m != nil {
+		return m.CreatedDate
+	}
+	return 0
+}
+
+func (m *SearchLogResponse) GetCompany() string {
+	if m != nil {
+		return m.Company
+	}
+	return ""
+}
+
+func (m *SearchLogResponse) GetSource() string {
+	if m != nil {
+		return m.Source
+	}
+	return ""
+}
+
+func (m *SearchLogResponse) GetFileType() string {
+	if m != nil {
+		return m.FileType
+	}
+	return ""
+}
+
+func (m *SearchLogResponse) GetLogfile() []string {
+	if m != nil {
+		return m.Logfile
+	}
+	return nil
+}
+
+type ListLogRequest struct {
+	Request              *BaseRequest `protobuf:"bytes,1,opt,name=request,proto3" json:"request,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
+}
+
+func (m *ListLogRequest) Reset()         { *m = ListLogRequest{} }
+func (m *ListLogRequest) String() string { return proto.CompactTextString(m) }
+func (*ListLogRequest) ProtoMessage()    {}
+func (*ListLogRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_loggingStream_399a69e111c29b2c, []int{5}
+}
+func (m *ListLogRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListLogRequest.Unmarshal(m, b)
+}
+func (m *ListLogRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListLogRequest.Marshal(b, m, deterministic)
+}
+func (dst *ListLogRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListLogRequest.Merge(dst, src)
+}
+func (m *ListLogRequest) XXX_Size() int {
+	return xxx_messageInfo_ListLogRequest.Size(m)
+}
+func (m *ListLogRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListLogRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListLogRequest proto.InternalMessageInfo
+
+func (m *ListLogRequest) GetRequest() *BaseRequest {
+	if m != nil {
+		return m.Request
+	}
+	return nil
+}
+
+type ListLogResponse struct {
+	Filter               string   `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	CreatedDate          int64    `protobuf:"varint,2,opt,name=createdDate,proto3" json:"createdDate,omitempty"`
+	Company              string   `protobuf:"bytes,3,opt,name=company,proto3" json:"company,omitempty"`
+	Source               string   `protobuf:"bytes,4,opt,name=source,proto3" json:"source,omitempty"`
+	FileType             string   `protobuf:"bytes,5,opt,name=fileType,proto3" json:"fileType,omitempty"`
+	Logfile              []string `protobuf:"bytes,6,rep,name=logfile,proto3" json:"logfile,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListLogResponse) Reset()         { *m = ListLogResponse{} }
+func (m *ListLogResponse) String() string { return proto.CompactTextString(m) }
+func (*ListLogResponse) ProtoMessage()    {}
+func (*ListLogResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_loggingStream_399a69e111c29b2c, []int{6}
+}
+func (m *ListLogResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListLogResponse.Unmarshal(m, b)
+}
+func (m *ListLogResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListLogResponse.Marshal(b, m, deterministic)
+}
+func (dst *ListLogResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListLogResponse.Merge(dst, src)
+}
+func (m *ListLogResponse) XXX_Size() int {
+	return xxx_messageInfo_ListLogResponse.Size(m)
+}
+func (m *ListLogResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListLogResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListLogResponse proto.InternalMessageInfo
+
+func (m *ListLogResponse) GetFilter() string {
+	if m != nil {
+		return m.Filter
+	}
+	return ""
+}
+
+func (m *ListLogResponse) GetCreatedDate() int64 {
+	if m != nil {
+		return m.CreatedDate
+	}
+	return 0
+}
+
+func (m *ListLogResponse) GetCompany() string {
+	if m != nil {
+		return m.Company
+	}
+	return ""
+}
+
+func (m *ListLogResponse) GetSource() string {
+	if m != nil {
+		return m.Source
+	}
+	return ""
+}
+
+func (m *ListLogResponse) GetFileType() string {
+	if m != nil {
+		return m.FileType
+	}
+	return ""
+}
+
+func (m *ListLogResponse) GetLogfile() []string {
+	if m != nil {
+		return m.Logfile
+	}
+	return nil
+}
+
+type CategoryLogRequest struct {
+	Request              *BaseRequest `protobuf:"bytes,1,opt,name=request,proto3" json:"request,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
+}
+
+func (m *CategoryLogRequest) Reset()         { *m = CategoryLogRequest{} }
+func (m *CategoryLogRequest) String() string { return proto.CompactTextString(m) }
+func (*CategoryLogRequest) ProtoMessage()    {}
+func (*CategoryLogRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_loggingStream_399a69e111c29b2c, []int{7}
+}
+func (m *CategoryLogRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CategoryLogRequest.Unmarshal(m, b)
+}
+func (m *CategoryLogRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CategoryLogRequest.Marshal(b, m, deterministic)
+}
+func (dst *CategoryLogRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CategoryLogRequest.Merge(dst, src)
+}
+func (m *CategoryLogRequest) XXX_Size() int {
+	return xxx_messageInfo_CategoryLogRequest.Size(m)
+}
+func (m *CategoryLogRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CategoryLogRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CategoryLogRequest proto.InternalMessageInfo
+
+func (m *CategoryLogRequest) GetRequest() *BaseRequest {
+	if m != nil {
+		return m.Request
+	}
+	return nil
+}
+
+type CategoryLogResponse struct {
+	Filter               string   `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	CreatedDate          int64    `protobuf:"varint,2,opt,name=createdDate,proto3" json:"createdDate,omitempty"`
+	Company              string   `protobuf:"bytes,3,opt,name=company,proto3" json:"company,omitempty"`
+	Source               string   `protobuf:"bytes,4,opt,name=source,proto3" json:"source,omitempty"`
+	FileType             string   `protobuf:"bytes,5,opt,name=fileType,proto3" json:"fileType,omitempty"`
+	Logfile              []string `protobuf:"bytes,6,rep,name=logfile,proto3" json:"logfile,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CategoryLogResponse) Reset()         { *m = CategoryLogResponse{} }
+func (m *CategoryLogResponse) String() string { return proto.CompactTextString(m) }
+func (*CategoryLogResponse) ProtoMessage()    {}
+func (*CategoryLogResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_loggingStream_399a69e111c29b2c, []int{8}
+}
+func (m *CategoryLogResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CategoryLogResponse.Unmarshal(m, b)
+}
+func (m *CategoryLogResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CategoryLogResponse.Marshal(b, m, deterministic)
+}
+func (dst *CategoryLogResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CategoryLogResponse.Merge(dst, src)
+}
+func (m *CategoryLogResponse) XXX_Size() int {
+	return xxx_messageInfo_CategoryLogResponse.Size(m)
+}
+func (m *CategoryLogResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CategoryLogResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CategoryLogResponse proto.InternalMessageInfo
+
+func (m *CategoryLogResponse) GetFilter() string {
+	if m != nil {
+		return m.Filter
+	}
+	return ""
+}
+
+func (m *CategoryLogResponse) GetCreatedDate() int64 {
+	if m != nil {
+		return m.CreatedDate
+	}
+	return 0
+}
+
+func (m *CategoryLogResponse) GetCompany() string {
+	if m != nil {
+		return m.Company
+	}
+	return ""
+}
+
+func (m *CategoryLogResponse) GetSource() string {
+	if m != nil {
+		return m.Source
+	}
+	return ""
+}
+
+func (m *CategoryLogResponse) GetFileType() string {
+	if m != nil {
+		return m.FileType
+	}
+	return ""
+}
+
+func (m *CategoryLogResponse) GetLogfile() []string {
+	if m != nil {
+		return m.Logfile
+	}
+	return nil
+}
+
 func init() {
+	proto.RegisterType((*BaseRequest)(nil), "logginStream.BaseRequest")
 	proto.RegisterType((*LogRequest)(nil), "logginStream.LogRequest")
 	proto.RegisterType((*LogResponse)(nil), "logginStream.LogResponse")
+	proto.RegisterType((*SearchLogRequest)(nil), "logginStream.SearchLogRequest")
+	proto.RegisterType((*SearchLogResponse)(nil), "logginStream.SearchLogResponse")
+	proto.RegisterType((*ListLogRequest)(nil), "logginStream.ListLogRequest")
+	proto.RegisterType((*ListLogResponse)(nil), "logginStream.ListLogResponse")
+	proto.RegisterType((*CategoryLogRequest)(nil), "logginStream.CategoryLogRequest")
+	proto.RegisterType((*CategoryLogResponse)(nil), "logginStream.CategoryLogResponse")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -150,8 +583,10 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type LoggingStreamClient interface {
-	// Sends a greeting
 	SendLog(ctx context.Context, in *LogRequest, opts ...grpc.CallOption) (LoggingStream_SendLogClient, error)
+	SearchLog(ctx context.Context, in *SearchLogRequest, opts ...grpc.CallOption) (*SearchLogResponse, error)
+	ListLog(ctx context.Context, in *ListLogRequest, opts ...grpc.CallOption) (*ListLogResponse, error)
+	GetCategories(ctx context.Context, in *CategoryLogRequest, opts ...grpc.CallOption) (*CategoryLogResponse, error)
 }
 
 type loggingStreamClient struct {
@@ -194,10 +629,39 @@ func (x *loggingStreamSendLogClient) Recv() (*LogResponse, error) {
 	return m, nil
 }
 
+func (c *loggingStreamClient) SearchLog(ctx context.Context, in *SearchLogRequest, opts ...grpc.CallOption) (*SearchLogResponse, error) {
+	out := new(SearchLogResponse)
+	err := c.cc.Invoke(ctx, "/logginStream.LoggingStream/SearchLog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loggingStreamClient) ListLog(ctx context.Context, in *ListLogRequest, opts ...grpc.CallOption) (*ListLogResponse, error) {
+	out := new(ListLogResponse)
+	err := c.cc.Invoke(ctx, "/logginStream.LoggingStream/ListLog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loggingStreamClient) GetCategories(ctx context.Context, in *CategoryLogRequest, opts ...grpc.CallOption) (*CategoryLogResponse, error) {
+	out := new(CategoryLogResponse)
+	err := c.cc.Invoke(ctx, "/logginStream.LoggingStream/GetCategories", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LoggingStreamServer is the server API for LoggingStream service.
 type LoggingStreamServer interface {
-	// Sends a greeting
 	SendLog(*LogRequest, LoggingStream_SendLogServer) error
+	SearchLog(context.Context, *SearchLogRequest) (*SearchLogResponse, error)
+	ListLog(context.Context, *ListLogRequest) (*ListLogResponse, error)
+	GetCategories(context.Context, *CategoryLogRequest) (*CategoryLogResponse, error)
 }
 
 func RegisterLoggingStreamServer(s *grpc.Server, srv LoggingStreamServer) {
@@ -225,10 +689,77 @@ func (x *loggingStreamSendLogServer) Send(m *LogResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _LoggingStream_SearchLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchLogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoggingStreamServer).SearchLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/logginStream.LoggingStream/SearchLog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoggingStreamServer).SearchLog(ctx, req.(*SearchLogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoggingStream_ListLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListLogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoggingStreamServer).ListLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/logginStream.LoggingStream/ListLog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoggingStreamServer).ListLog(ctx, req.(*ListLogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoggingStream_GetCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CategoryLogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoggingStreamServer).GetCategories(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/logginStream.LoggingStream/GetCategories",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoggingStreamServer).GetCategories(ctx, req.(*CategoryLogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _LoggingStream_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "logginStream.LoggingStream",
 	HandlerType: (*LoggingStreamServer)(nil),
-	Methods:     []grpc.MethodDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SearchLog",
+			Handler:    _LoggingStream_SearchLog_Handler,
+		},
+		{
+			MethodName: "ListLog",
+			Handler:    _LoggingStream_ListLog_Handler,
+		},
+		{
+			MethodName: "GetCategories",
+			Handler:    _LoggingStream_GetCategories_Handler,
+		},
+	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "SendLog",
@@ -239,24 +770,39 @@ var _LoggingStream_serviceDesc = grpc.ServiceDesc{
 	Metadata: "loggingStream.proto",
 }
 
-func init() { proto.RegisterFile("loggingStream.proto", fileDescriptor_loggingStream_42ee9a0bd611f10a) }
+func init() { proto.RegisterFile("loggingStream.proto", fileDescriptor_loggingStream_399a69e111c29b2c) }
 
-var fileDescriptor_loggingStream_42ee9a0bd611f10a = []byte{
-	// 245 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x90, 0x31, 0x4f, 0xc3, 0x30,
-	0x10, 0x85, 0x31, 0x94, 0x16, 0x0e, 0x10, 0x92, 0x91, 0x90, 0x29, 0x4b, 0x95, 0xa9, 0x93, 0x55,
-	0xc1, 0x8e, 0x44, 0x26, 0x86, 0x0c, 0x55, 0x32, 0x30, 0x87, 0xf4, 0x6a, 0x22, 0xb9, 0x3e, 0x63,
-	0x5f, 0x05, 0xfc, 0x7b, 0xe4, 0x24, 0x85, 0x0c, 0x6c, 0xef, 0xbb, 0xd3, 0xd3, 0xbb, 0x77, 0x70,
-	0x63, 0xc9, 0x98, 0xd6, 0x99, 0x8a, 0x03, 0xd6, 0x3b, 0xed, 0x03, 0x31, 0xc9, 0xcb, 0x7e, 0xd8,
-	0xcf, 0xb2, 0x27, 0x80, 0x82, 0x4c, 0x89, 0x1f, 0x7b, 0x8c, 0x2c, 0x15, 0xcc, 0x2c, 0x99, 0x6d,
-	0x6b, 0x51, 0x89, 0x85, 0x58, 0x9e, 0x97, 0x07, 0x94, 0xb7, 0x30, 0xdd, 0xb6, 0x96, 0x31, 0xa8,
-	0xe3, 0x6e, 0x31, 0x50, 0x46, 0x70, 0xd1, 0xf9, 0xa3, 0x27, 0x17, 0x51, 0x4a, 0x98, 0xf0, 0xb7,
-	0x3f, 0xb8, 0x3b, 0x2d, 0xe7, 0x70, 0xd6, 0x04, 0xac, 0x19, 0x9f, 0x79, 0x30, 0xff, 0x72, 0x0a,
-	0x6c, 0xc8, 0x31, 0x3a, 0x56, 0x27, 0x7d, 0xe0, 0x80, 0x29, 0x30, 0x72, 0xcd, 0xfb, 0xa8, 0x26,
-	0x0b, 0xb1, 0x3c, 0x2d, 0x07, 0x7a, 0xa8, 0xe0, 0xaa, 0x18, 0xb7, 0x92, 0x39, 0xcc, 0x2a, 0x74,
-	0x9b, 0x82, 0x8c, 0x54, 0x7a, 0xdc, 0x4d, 0xff, 0x15, 0x9b, 0xdf, 0xfd, 0xb3, 0xe9, 0x4f, 0xce,
-	0x8e, 0x56, 0x22, 0x5f, 0xc1, 0x7d, 0x4b, 0xda, 0x04, 0xdf, 0x68, 0xfc, 0xaa, 0x77, 0xde, 0x62,
-	0xd4, 0xef, 0x68, 0x2d, 0x7d, 0x52, 0xb0, 0x9b, 0xfc, 0xfa, 0x25, 0xe9, 0xd7, 0xa4, 0xd7, 0xe9,
-	0x87, 0x6b, 0xf1, 0x36, 0xed, 0x9e, 0xf9, 0xf8, 0x13, 0x00, 0x00, 0xff, 0xff, 0xc2, 0xe7, 0xaa,
-	0xdc, 0x63, 0x01, 0x00, 0x00,
+var fileDescriptor_loggingStream_399a69e111c29b2c = []byte{
+	// 483 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xd4, 0x95, 0x5d, 0x6e, 0xd3, 0x40,
+	0x10, 0xc7, 0xd9, 0x7c, 0xd2, 0x09, 0xa5, 0xb0, 0x95, 0x90, 0x6b, 0xbe, 0x8c, 0x9f, 0xfa, 0x64,
+	0x55, 0xed, 0x09, 0x1a, 0x40, 0x2d, 0x52, 0x84, 0x2a, 0x07, 0xc1, 0xf3, 0xe2, 0x4c, 0x5d, 0x4b,
+	0x8e, 0xd7, 0xec, 0x6e, 0x04, 0x39, 0x05, 0x87, 0xe0, 0x08, 0x08, 0x71, 0x02, 0xee, 0x85, 0xbc,
+	0x6b, 0x3b, 0xbb, 0x01, 0xf7, 0x25, 0x4f, 0x7d, 0x9b, 0xff, 0xcc, 0x7a, 0x32, 0xbf, 0x99, 0xd9,
+	0x2c, 0x1c, 0xe6, 0x3c, 0x4d, 0xb3, 0x22, 0x9d, 0x2b, 0x81, 0x6c, 0x19, 0x95, 0x82, 0x2b, 0x4e,
+	0x1f, 0x18, 0xa7, 0xf1, 0x85, 0xdf, 0x09, 0x4c, 0xa6, 0x4c, 0x62, 0x8c, 0x5f, 0x56, 0x28, 0x15,
+	0xf5, 0x60, 0x9c, 0xf3, 0xf4, 0x3a, 0xcb, 0xd1, 0x23, 0x01, 0x39, 0xde, 0x8b, 0x1b, 0x49, 0x9f,
+	0xc0, 0xe8, 0x3a, 0xcb, 0x15, 0x0a, 0xaf, 0xa7, 0x03, 0xb5, 0xaa, 0xfc, 0x92, 0xaf, 0x44, 0x82,
+	0x5e, 0xdf, 0xf8, 0x8d, 0xa2, 0x3e, 0xdc, 0xaf, 0xbe, 0xfb, 0xb0, 0x2e, 0xd1, 0x1b, 0xe8, 0x48,
+	0xab, 0xab, 0x58, 0x22, 0x90, 0x29, 0x3c, 0x57, 0xde, 0x30, 0x20, 0xc7, 0xfd, 0xb8, 0xd5, 0xe1,
+	0x39, 0xc0, 0x8c, 0xa7, 0x4d, 0x3d, 0x67, 0x30, 0x16, 0xc6, 0xd4, 0xf5, 0x4c, 0x4e, 0x8f, 0x22,
+	0xbb, 0xfe, 0xc8, 0xaa, 0x3d, 0x6e, 0x4e, 0x86, 0x3f, 0x08, 0x4c, 0x74, 0x0e, 0x59, 0xf2, 0x42,
+	0x22, 0xa5, 0x30, 0x50, 0x55, 0x19, 0x86, 0x48, 0xdb, 0x4e, 0x09, 0x3d, 0xb7, 0x84, 0xaa, 0x09,
+	0x09, 0x2f, 0x14, 0x16, 0xaa, 0x66, 0x6a, 0xa4, 0x86, 0x55, 0x4c, 0xad, 0xa4, 0x46, 0x1a, 0xc6,
+	0xb5, 0xb2, 0x9a, 0x30, 0xec, 0x6c, 0xc2, 0xc8, 0x6d, 0x42, 0x78, 0x01, 0x8f, 0xe6, 0xc8, 0x44,
+	0x72, 0xb3, 0x2b, 0xee, 0x2f, 0x02, 0x8f, 0xad, 0x4c, 0x35, 0xf4, 0x66, 0x5e, 0xc4, 0x99, 0x57,
+	0x00, 0x13, 0x03, 0xba, 0x78, 0xc3, 0x14, 0xd6, 0xec, 0xb6, 0xcb, 0xe0, 0x2f, 0x4b, 0x56, 0xac,
+	0x37, 0xf8, 0x5a, 0x5a, 0x98, 0x83, 0x4e, 0xcc, 0xe1, 0xd6, 0xac, 0xad, 0x8d, 0x1a, 0x05, 0x7d,
+	0x6b, 0xa3, 0xc2, 0xb7, 0xf0, 0x70, 0x96, 0x49, 0xb5, 0x2b, 0xfe, 0x4f, 0x02, 0x07, 0x6d, 0x9e,
+	0x3b, 0x03, 0xff, 0x0e, 0xe8, 0x6b, 0xa6, 0x30, 0xe5, 0x62, 0xbd, 0x6b, 0x03, 0x7e, 0x13, 0x38,
+	0x74, 0x72, 0xdd, 0x95, 0x26, 0x9c, 0xfe, 0xe9, 0xc1, 0xfe, 0xcc, 0xfe, 0x8f, 0xa2, 0x53, 0x18,
+	0xcf, 0xb1, 0x58, 0xcc, 0x78, 0x4a, 0x3d, 0x17, 0x7d, 0xd3, 0x25, 0xff, 0xe8, 0x3f, 0x11, 0xc3,
+	0x1c, 0xde, 0x3b, 0x21, 0xf4, 0x3d, 0xec, 0xb5, 0xd7, 0x81, 0xbe, 0x70, 0xcf, 0x6e, 0xdf, 0x38,
+	0xff, 0x65, 0x67, 0xbc, 0xc9, 0x48, 0x2f, 0x61, 0x5c, 0xef, 0x17, 0x7d, 0xb6, 0xf5, 0xcb, 0xce,
+	0xfa, 0xfa, 0xcf, 0x3b, 0xa2, 0x6d, 0xa6, 0x8f, 0xb0, 0x7f, 0x81, 0xaa, 0x9e, 0x55, 0x86, 0x92,
+	0x06, 0xee, 0x17, 0xff, 0x6e, 0x84, 0xff, 0xea, 0x96, 0x13, 0x4d, 0xde, 0xe9, 0x09, 0x3c, 0xcd,
+	0x78, 0x94, 0x8a, 0x32, 0x89, 0xf0, 0x1b, 0x5b, 0x96, 0x39, 0xca, 0xe8, 0x06, 0xf3, 0x9c, 0x7f,
+	0xe5, 0x22, 0x5f, 0x4c, 0x0f, 0x2e, 0x2b, 0xfb, 0x53, 0x65, 0x5f, 0x55, 0x6f, 0xc0, 0x15, 0xf9,
+	0x3c, 0xd2, 0x8f, 0xc1, 0xd9, 0xdf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x04, 0x80, 0xe4, 0xa3, 0x23,
+	0x06, 0x00, 0x00,
 }

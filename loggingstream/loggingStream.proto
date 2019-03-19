@@ -8,26 +8,82 @@ package logginStream;
 
 // The greeting service definition.
 service LoggingStream {
-  // Sends a greeting
-  rpc SendLog (LogRequest) returns (stream LogResponse) {}
+  
+  rpc SendLog (LogRequest) returns (stream LogResponse) { }
+
+  rpc SearchLog (SearchLogRequest) returns (SearchLogResponse) { }
+
+  rpc ListLog (ListLogRequest) returns (ListLogResponse) { }
+
+  rpc GetCategories (CategoryLogRequest) returns (CategoryLogResponse) { }
+
 }
+
+
+message BaseRequest {
+  string logfile = 1;
+  string filter = 2;
+  string source = 3;
+  string fileType = 4;
+  int64 createAt = 5;
+}
+
 
 // The request message containing the user's name.
 message LogRequest {
-  string logfile = 1;
-  string filter = 2;
+  BaseRequest request = 1;
 }
 
 // The response message containing the greetings
 message LogResponse {
   string type = 1;
-  string createAt = 2;
+  int64 createAt = 2;
   string content = 3;
   int32 status = 4;
+  string source = 5;
+  string fileType = 6;
 }
 
+message SearchLogRequest { 
+  BaseRequest request = 1;
+}
 
+message SearchLogResponse { 
+  
+  string filter =  1;
+  int64 createdDate = 2;
+  string company = 3;
+  string source = 4;
+  string fileType = 5;
+  repeated string logfile = 6;
+}
 
-// protoc -I loggingstream/ loggingstream/helloworld.proto --go_out=plugins=grpc:helloworld
-// protoc -I loggingstream/ loggingstream/helloworld.proto --go_out=plugins=grpc:loggingstream
+message ListLogRequest {   
+  BaseRequest request = 1;
+}
 
+message ListLogResponse { 
+  
+  string filter =  1;
+  int64 createdDate = 2;
+  string company = 3;
+  string source = 4;
+  string fileType = 5;
+  repeated string logfile = 6;
+}
+
+message CategoryLogRequest {
+  BaseRequest request = 1;
+}
+
+message CategoryLogResponse { 
+  
+  string filter =  1;
+  int64 createdDate = 2;
+  string company = 3;
+  string source = 4;
+  string fileType = 5;
+  repeated string logfile = 6;
+}
+
+// protoc -I loggingstream/ loggingstream/loggingStream.proto --go_out=plugins=grpc:loggingstream
